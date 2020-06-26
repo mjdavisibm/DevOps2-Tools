@@ -84,18 +84,15 @@ public class DoctorServiceJsonImpl implements DoctorService {
 		allObjs = new ArrayList<DoctorDTO>();
 	}
 
-	@Override
 	public void addPatients(DoctorDTO doctor, List<PatientDTO> patients) {
 		for(PatientDTO patient: patients)
 			doctor.addPatient(patient);
 	}
 
-	@Override
 	public void addPatient(DoctorDTO doctor, PatientDTO patient) {
 		doctor.addPatient(patient);
 	}
-
-	@Override
+	
 	public void removePatient(DoctorDTO doctor, PatientDTO patient) {
 		doctor.removePatient(patient);
 	}

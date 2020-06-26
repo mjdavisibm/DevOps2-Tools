@@ -13,18 +13,15 @@
 	<modules>
 		<module>DevOps2-Application-Model</module>
 		<module>DevOps2-Application-Persist</module>
-		<module>DevOps2-Application-Service</module>
-		<module>DevOps2-Application-API</module>
-		<module>DevOps2-Application-GUI</module>
 		<module>DevOps2-Application-Persist-test</module>
 	</modules>
 
 	<properties>
-		<java.version>1.8</java.version>
+		<java.version>1.13.02</java.version>
 		<junit.version>3.8.2</junit.version>
-		<spring-boot-starter.version>2.2.2.RELEASE</spring-boot-starter.version>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<maven.compiler.target>1.8</maven.compiler.target>
+		<spring-boot-starter.version>2.3.1.RELEASE</spring-boot-starter.version>
+		<maven.compiler.source>1.13.02</maven.compiler.source>
+		<maven.compiler.target>1.13.02</maven.compiler.target>
 	</properties>
 
 	<dependencyManagement>
@@ -79,13 +76,13 @@
 			<dependency>
 				<groupId>org.hibernate</groupId>
 				<artifactId>hibernate-java8</artifactId>
-				<version>5.4.3.Final</version>
+				<version>5.4.18.Final</version>
 			</dependency>
 			<!-- https://mvnrepository.com/artifact/com.fasterxml.jackson.datatype/jackson-datatype-jsr310 -->
 			<dependency>
 				<groupId>com.fasterxml.jackson.datatype</groupId>
 				<artifactId>jackson-datatype-jsr310</artifactId>
-				<version>2.9.9</version>
+				<version>2.11.1</version>
 				<!-- End: Packages to allow us to use LocalTime instead of java.util.Date -->
 			</dependency>
 
@@ -134,6 +131,11 @@
 						<source>${maven.compiler.source}</source>
 						<target>${maven.compiler.target}</target>
 					</configuration>
+				</plugin>
+				<plugin>
+					<groupId>org.springframework.boot</groupId>
+					<artifactId>spring-boot-maven-plugin</artifactId>
+					<version>2.3.1</version>
 				</plugin>
 			</plugins>
 		</pluginManagement>

@@ -36,7 +36,7 @@ public abstract class JsonTestTools {
 		ObjectMapper mapper = new ObjectMapper();
 		InputStream inputStream = TypeReference.class.getResourceAsStream(jsonFilename);
 		try {
-			allObjs = mapper.readValue(inputStream, typeReference);
+			allObjs = (List<Object>)mapper.readValue(inputStream, typeReference);
 			if (log.isTraceEnabled()) {
 				for (Object obj : allObjs) {
 					log.trace("Line Item: " + obj);

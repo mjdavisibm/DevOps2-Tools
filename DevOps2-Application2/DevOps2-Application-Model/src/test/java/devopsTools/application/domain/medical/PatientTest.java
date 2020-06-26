@@ -17,7 +17,6 @@ import devopsTools.application.domain.AddressDTO;
 import devopsTools.application.domain.AddressDTO.AddressType;
 import devopsTools.application.domain.AddressDTO.State;
 import devopsTools.application.domain.NameDTO;
-import devopsTools.application.domain.PersonDTO;
 import devopsTools.application.domain.medical.PatientDTO.Gender;
 import lombok.extern.slf4j.Slf4j;
 
