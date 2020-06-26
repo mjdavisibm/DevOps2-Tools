@@ -1,0 +1,42 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: chart-museum-deployment
+  namespace: chartmuseum
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chartmuseum
+  template:
+    metadata:
+      labels:
+        app: chartmuseum
+    spec:
+      initContainers:
+      - name: volume-mount-hack
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "chown -R 1000:1000 /var/charts"]
+        volumeMounts:
+            - name: chartmuseum-persistent-storage
+              mountPath: /var/charts 
+      containers:
+      - name: chartmuseum
+        image: chartmuseum/chartmuseum
+        ports:
+        - containerPort: 8080
+        env:
+        - name: STORAGE
+          value: "local"
+        - name: STORAGE_LOCAL_ROOTDIR
+          value: "/var/charts"
+        - name: DEBUG
+          value: "1"
+        volumeMounts:
+              - name: chartmuseum-persistent-storage
+                mountPath: /var/charts
+      volumes:
+      - name: chartmuseum-persistent-storage
+        persistentVolumeClaim:
+           claimName: chartmuseum-data

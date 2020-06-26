@@ -1,0 +1,66 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pvc-5fabfc48-6c64-4438-b3ca-060bd0298d65
+  selfLink: /api/v1/persistentvolumes/pvc-5fabfc48-6c64-4438-b3ca-060bd0298d65
+  uid: cef12f6b-515e-4273-9ff7-b6335d7dd6f9
+  resourceVersion: '13136379'
+  creationTimestamp: '2020-04-02T19:23:25Z'
+  labels:
+    CapacityGb: '20'
+    Datacenter: dal13
+    IOPS: '10'
+    StorageType: Endurance
+    billingType: hourly
+    failure-domain.beta.kubernetes.io/region: us-south
+    failure-domain.beta.kubernetes.io/zone: dal13
+    ibm-cloud.kubernetes.io/iaas-provider: softlayer
+  annotations:
+    ibm.io/network-storage-lun: '3'
+    ibm.io/mountpath: ''
+    ibm.io/network-storage-target: 161.26.114.149
+    ibm.io/dm: ''
+    pv.kubernetes.io/provisioned-by: ibm.io/ibmc-block
+    volume.beta.kubernetes.io/storage-class: ''
+    ibm.io/network-storage-id: '133075384'
+    ibm.io/mountstatus: attaching
+    ibm.io/nodename: 10.209.172.48
+  finalizers:
+    - kubernetes.io/pv-protection
+spec:
+  capacity:
+    storage: 20Gi
+  flexVolume:
+    driver: ibm/ibmc-block
+    fsType: ext4
+    options:
+      Lun: '3'
+      TargetPortal: 161.26.114.151
+      VolumeID: '133075384'
+      volumeName: pvc-5fabfc48-6c64-4438-b3ca-060bd0298d65
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    kind: PersistentVolumeClaim
+    namespace: kube-system
+    name: exchange-db-claim-edge-computing-exchangedb-keeper-0
+    uid: 5fabfc48-6c64-4438-b3ca-060bd0298d65
+    apiVersion: v1
+    resourceVersion: '853841'
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: ibmc-block-gold
+  volumeMode: Filesystem
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: failure-domain.beta.kubernetes.io/zone
+              operator: In
+              values:
+                - dal13
+            - key: failure-domain.beta.kubernetes.io/region
+              operator: In
+              values:
+                - us-south
+status:
+  phase: Bound

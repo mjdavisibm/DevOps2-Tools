@@ -1,0 +1,23 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: chart-museum-ui-deployment
+  namespace: chartmuseum
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: chartmuseumui
+  template:
+    metadata:
+      labels:
+        app: chartmuseumui
+    spec:
+      containers:
+      - name: chartmuseumui
+        image: idobry/chartmuseumui
+        ports:
+        - containerPort: 8080
+        env:
+        - name: CHART_MUSESUM_URL
+          value: "http://chartmuseum:8080"

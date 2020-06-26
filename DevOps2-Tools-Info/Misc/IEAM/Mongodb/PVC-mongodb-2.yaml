@@ -1,0 +1,41 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  annotations:
+    ibm.io/provisioning-status: complete
+    pv.kubernetes.io/bind-completed: 'yes'
+    pv.kubernetes.io/bound-by-controller: 'yes'
+    volume.beta.kubernetes.io/storage-provisioner: ibm.io/ibmc-file
+  selfLink: >-
+    /api/v1/namespaces/kube-system/persistentvolumeclaims/mongodbdir-icp-mongodb-2
+  resourceVersion: '1005801'
+  name: mongodbdir-icp-mongodb-2
+  uid: 52843896-6410-4178-b9fd-a0f434c73fc1
+  creationTimestamp: '2020-03-18T19:35:00Z'
+  namespace: kube-system
+  finalizers:
+    - kubernetes.io/pvc-protection
+  labels:
+    region: us-south
+    zone: dal13
+spec:
+  accessModes:
+    - ReadWriteOnce
+  selector:
+    matchLabels:
+      app: icp-mongodb
+      region: us-south
+      release: mongodb
+      zone: dal13
+  resources:
+    requests:
+      storage: 20Gi
+  volumeName: pvc-52843896-6410-4178-b9fd-a0f434c73fc1
+  storageClassName: ibmc-file-retain-bronze
+  volumeMode: Filesystem
+status:
+  phase: Bound
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 20Gi

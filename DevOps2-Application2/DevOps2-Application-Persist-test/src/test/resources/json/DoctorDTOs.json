@@ -1,0 +1,36 @@
+[
+	{
+		"name": {
+			"firstName": "George",
+			"middleName": "",
+			"lastName": "Frankenstein",
+			"preferredName": "Geo"
+		},
+		"addresses": [
+			{
+				"type": "BUSINESS",
+				"street": "1 Medical Blvd",
+				"city": "New York",
+				"state": "NY",
+				"zip": "08854"
+			}
+		]
+	},
+	{
+		"name": {
+			"firstName": "Vera",
+			"middleName": "M",
+			"lastName": "Paine",
+			"preferredName": "Vera"
+		},
+		"addresses": [
+			{
+				"type": "BUSINESS",
+				"street": "1 Calcium Way",
+				"city": "New York",
+				"state": "NY",
+				"zip": "08824"
+			}
+		]
+	}
+]

@@ -1,0 +1,65 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pvc-48735462-913c-48bd-814c-e18846a79ed6
+  selfLink: /api/v1/persistentvolumes/pvc-48735462-913c-48bd-814c-e18846a79ed6
+  uid: 12e5cd5a-2033-429d-9f64-fed1517d3496
+  resourceVersion: '855516'
+  creationTimestamp: '2020-04-02T19:23:23Z'
+  labels:
+    CapacityGb: '50'
+    Datacenter: dal13
+    IOPS: '10'
+    StorageType: Endurance
+    billingType: hourly
+    failure-domain.beta.kubernetes.io/region: us-south
+    failure-domain.beta.kubernetes.io/zone: dal13
+    ibm-cloud.kubernetes.io/iaas-provider: softlayer
+  annotations:
+    ibm.io/dm: /dev/dm-2
+    ibm.io/mountpath: >-
+      /var/data/kubelet/plugins/kubernetes.io/flexvolume/ibm/ibmc-block/mounts/pvc-48735462-913c-48bd-814c-e18846a79ed6
+    ibm.io/mountstatus: mounted
+    ibm.io/network-storage-id: '133075376'
+    ibm.io/nodename: 10.209.172.38
+    pv.kubernetes.io/provisioned-by: ibm.io/ibmc-block
+    volume.beta.kubernetes.io/storage-class: ''
+  finalizers:
+    - kubernetes.io/pv-protection
+spec:
+  capacity:
+    storage: 50Gi
+  flexVolume:
+    driver: ibm/ibmc-block
+    fsType: ext4
+    options:
+      Lun: '2'
+      TargetPortal: 161.26.114.152
+      VolumeID: '133075376'
+      volumeName: pvc-48735462-913c-48bd-814c-e18846a79ed6
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    kind: PersistentVolumeClaim
+    namespace: kube-system
+    name: datadir-edge-computing-cssdb-server-0
+    uid: 48735462-913c-48bd-814c-e18846a79ed6
+    apiVersion: v1
+    resourceVersion: '853828'
+  persistentVolumeReclaimPolicy: Delete
+  storageClassName: ibmc-block-gold
+  volumeMode: Filesystem
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: failure-domain.beta.kubernetes.io/zone
+              operator: In
+              values:
+                - dal13
+            - key: failure-domain.beta.kubernetes.io/region
+              operator: In
+              values:
+                - us-south
+status:
+  phase: Bound

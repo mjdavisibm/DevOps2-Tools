@@ -1,0 +1,41 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  annotations:
+    ibm.io/provisioning-status: complete
+    pv.kubernetes.io/bind-completed: 'yes'
+    pv.kubernetes.io/bound-by-controller: 'yes'
+    volume.beta.kubernetes.io/storage-provisioner: ibm.io/ibmc-block
+  selfLink: >-
+    /api/v1/namespaces/kube-system/persistentvolumeclaims/agbot-db-claim-edge-computing-agbotdb-keeper-0
+  resourceVersion: '854750'
+  name: agbot-db-claim-edge-computing-agbotdb-keeper-0
+  uid: 3434e84d-eb9a-418f-916c-ed67d24f9726
+  creationTimestamp: '2020-04-02T19:20:37Z'
+  namespace: kube-system
+  finalizers:
+    - kubernetes.io/pvc-protection
+  labels:
+    app.kubernetes.io/instance: edge-computing
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: agbotdb
+    component: stolon-keeper
+    helm.sh/chart: agbotdb
+    region: us-south
+    release: edge-computing
+    zone: dal13
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 10Gi
+  volumeName: pvc-3434e84d-eb9a-418f-916c-ed67d24f9726
+  storageClassName: ibmc-block-gold
+  volumeMode: Filesystem
+status:
+  phase: Bound
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 20Gi

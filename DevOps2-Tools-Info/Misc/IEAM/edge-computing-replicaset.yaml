@@ -1,0 +1,199 @@
+kind: StatefulSet
+apiVersion: apps/v1
+metadata:
+  name: edge-computing-exchangedb-keeper
+  namespace: kube-system
+  selfLink: >-
+    /apis/apps/v1/namespaces/kube-system/statefulsets/edge-computing-exchangedb-keeper
+  uid: ffb0a87a-4cd7-4abb-960b-23e5bfed28c3
+  resourceVersion: '11084963'
+  generation: 1
+  creationTimestamp: '2020-04-02T19:20:37Z'
+  labels:
+    app.kubernetes.io/instance: edge-computing
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: exchangedb
+    component: stolon-keeper
+    helm.sh/chart: exchangedb
+    release: edge-computing
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/instance: edge-computing
+      app.kubernetes.io/managed-by: Tiller
+      app.kubernetes.io/name: exchangedb
+      component: stolon-keeper
+      helm.sh/chart: exchangedb
+      release: edge-computing
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        app.kubernetes.io/instance: edge-computing
+        app.kubernetes.io/managed-by: Tiller
+        app.kubernetes.io/name: exchangedb
+        component: stolon-keeper
+        helm.sh/chart: exchangedb
+        release: edge-computing
+        stolon-cluster: edge-computing-exchangedb
+      annotations:
+        productID: PostgressqlHA_stolon_free_0000
+        productName: PostgressqlHA
+        productVersion: 9.6.9
+    spec:
+      restartPolicy: Always
+      serviceAccountName: edge-computing-exchangedb-sa
+      schedulerName: default-scheduler
+      affinity:
+        nodeAffinity:
+          requiredDuringSchedulingIgnoredDuringExecution:
+            nodeSelectorTerms:
+              - matchExpressions:
+                  - key: beta.kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+          preferredDuringSchedulingIgnoredDuringExecution:
+            - weight: 2
+              preference:
+                matchExpressions:
+                  - key: beta.kubernetes.io/arch
+                    operator: In
+                    values:
+                      - amd64
+      terminationGracePeriodSeconds: 10
+      securityContext:
+        runAsNonRoot: true
+        fsGroup: 2001
+      containers:
+        - resources:
+            limits:
+              cpu: '2'
+              memory: 2Gi
+            requests:
+              cpu: 100m
+              memory: 256Mi
+          readinessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - exec pg_isready -h localhost -p 5432
+            initialDelaySeconds: 10
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 5
+          terminationMessagePath: /dev/termination-log
+          name: keeper
+          command:
+            - /bin/bash
+            - '-ec'
+            - |
+              sh -x /home/stolon/update_user_entry.sh
+              echo $(whoami)
+              # Generate our keeper uid using the pod index
+              IFS='-' read -ra ADDR <<< "$(hostname)"
+              export STKEEPER_UID="keeper${ADDR[-1]}"
+              export POD_IP=$(hostname -i)
+              export STKEEPER_PG_LISTEN_ADDRESS=$POD_IP
+              export STOLON_DATA=/stolon-data
+              cp /etc/secrets/ssl/* /etc/secrets/ssl_copy/
+              chmod 0600 /etc/secrets/ssl_copy/*
+              mkdir -p /stolon-data/postgres
+              chmod 700 -f /stolon-data/postgres
+              exec stolon-keeper --data-dir $STOLON_DATA
+          livenessProbe:
+            exec:
+              command:
+                - sh
+                - '-c'
+                - exec pg_isready -h localhost -p 5432
+            initialDelaySeconds: 15
+            timeoutSeconds: 1
+            periodSeconds: 10
+            successThreshold: 1
+            failureThreshold: 5
+          env:
+            - name: POD_NAME
+              valueFrom:
+                fieldRef:
+                  apiVersion: v1
+                  fieldPath: metadata.name
+            - name: STKEEPER_CLUSTER_NAME
+              value: edge-computing-exchangedb
+            - name: STKEEPER_STORE_BACKEND
+              value: kubernetes
+            - name: STKEEPER_KUBE_RESOURCE_KIND
+              value: configmap
+            - name: STKEEPER_PG_REPL_USERNAME
+              value: repluser
+            - name: STKEEPER_PG_REPL_PASSWORDFILE
+              value: /etc/secrets/stolon/pg_repl_password
+            - name: STKEEPER_PG_SU_USERNAME
+              value: admin
+            - name: STKEEPER_PG_SU_PASSWORDFILE
+              value: /etc/secrets/stolon/pg_su_password
+            - name: STKEEPER_DEBUG
+              value: 'false'
+          securityContext:
+            capabilities:
+              drop:
+                - ALL
+            privileged: false
+            readOnlyRootFilesystem: false
+            allowPrivilegeEscalation: false
+          ports:
+            - containerPort: 5432
+              protocol: TCP
+          imagePullPolicy: IfNotPresent
+          volumeMounts:
+            - name: exchange-db-claim
+              mountPath: /stolon-data
+            - name: stolon-secrets
+              mountPath: /etc/secrets/stolon
+            - name: certs
+              mountPath: /etc/secrets/ssl
+          terminationMessagePolicy: File
+          image: >-
+            image-registry.openshift-image-registry.svc:5000/ibmcom/opencontent-postgres-stolon:1.1.1
+      serviceAccount: edge-computing-exchangedb-sa
+      volumes:
+        - name: stolon-secrets
+          secret:
+            secretName: edge-computing-exchangedb-postgresql-auth-secret
+            defaultMode: 420
+        - name: certs
+          secret:
+            secretName: edge-computing-exchangedb-tls-secret
+            defaultMode: 420
+      dnsPolicy: ClusterFirst
+  volumeClaimTemplates:
+    - metadata:
+        name: exchange-db-claim
+        creationTimestamp: null
+      spec:
+        accessModes:
+          - ReadWriteOnce
+        resources:
+          requests:
+            storage: 10Gi
+        volumeMode: Filesystem
+      status:
+        phase: Pending
+  serviceName: edge-computing-exchangedb-keeper-svc
+  podManagementPolicy: OrderedReady
+  updateStrategy:
+    type: RollingUpdate
+    rollingUpdate:
+      partition: 0
+  revisionHistoryLimit: 10
+status:
+  observedGeneration: 1
+  replicas: 1
+  currentReplicas: 1
+  updatedReplicas: 1
+  currentRevision: edge-computing-exchangedb-keeper-74445f4d8f
+  updateRevision: edge-computing-exchangedb-keeper-74445f4d8f
+  collisionCount: 0

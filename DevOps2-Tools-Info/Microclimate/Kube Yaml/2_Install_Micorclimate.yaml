@@ -1,0 +1,37 @@
+NOT COMPLETED YET
+
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: microclimate-deployment
+  namespace: microclimate
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: microclimate
+  template:
+    metadata:
+      labels:
+        app: microclimate
+    spec:
+      initContainers:
+      - name: volume-mount-hack
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "chown -R 200 /nexus_data"]
+        volumeMounts:
+            - name: microclimate-persistent-storage
+              mountPath: /nexus_data 
+      containers:
+      - name: nexus
+        image: sonatype/nexus3
+        ports:
+        - containerPort: 8081
+        volumeMounts:
+              - name: microclimate-persistent-storage
+                mountPath: /nexus_data
+      volumes:
+      - name: microclimate-persistent-storage
+        persistentVolumeClaim:
+           claimName: microclimate-data

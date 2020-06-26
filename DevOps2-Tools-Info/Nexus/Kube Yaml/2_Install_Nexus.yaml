@@ -1,0 +1,35 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: nexus-deployment
+  namespace: nexus
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: nexus
+  template:
+    metadata:
+      labels:
+        app: nexus
+    spec:
+      initContainers:
+      - name: volume-mount-hack
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "chown -R 200 /nexus_data"]
+        volumeMounts:
+            - name: nexus-persistent-storage
+              mountPath: /nexus_data 
+      containers:
+      - name: nexus
+        image: sonatype/nexus3
+        ports:
+        - containerPort: 8081
+        volumeMounts:
+              - name: nexus-persistent-storage
+                mountPath: /nexus_data
+      volumes:
+      - name: nexus-persistent-storage
+        persistentVolumeClaim:
+           claimName: nexus-data

@@ -1,0 +1,36 @@
+[
+	{
+		"id": 10001,
+		"name": {
+			"firstName": "Franklin",
+			"middleName": "Bill",
+			"lastName": "Tester",
+			"preferredName": "Frank"
+		},
+		"gender": "Male",
+		"dob": "1997-05-15",
+		"address": {
+			"street": "1 Test Street",
+			"city": "New York",
+			"state": "NY",
+			"zip": "08828"
+		}
+	},
+	{
+		"id": 10002,
+		"name": {
+			"firstName": "Cindy",
+			"middleName": "Leah",
+			"lastName": "Day",
+			"preferredName": "Cin"
+		},
+		"gender": "Female",
+		"dob": "1996-03-10",
+		"address": {
+			"street": "1 Quebec Avenue",
+			"city": "New York",
+			"state": "NY",
+			"zip": "08827"
+		}
+	}
+]

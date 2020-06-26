@@ -1,0 +1,37 @@
+apiVersion: extensions/v1beta1
+kind: Deployment
+metadata:
+  name: docker-for-jenkins
+  namespace: jenkins
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: docker-for-jenkins
+  template:
+    metadata:
+      labels:
+        app: docker-for-jenkins
+    spec:
+      initContainers:
+      - name: volume-mount-hack
+        image: busybox
+        command: ["/bin/sh"]
+        args: ["-c", "chown -R 1000:1000 /var/run/docker.sock"]
+        volumeMounts:
+            - name: docker-persistent-storage
+              mountPath: /var/run/docker.sock 
+      containers:
+      - name: docker-for-jenkins
+        image: jenkinsci/jnlp-slave
+        ports:
+        - containerPort: 2376
+        volumeMounts:
+              - name: docker-persistent-storage
+                mountPath: /var/run/docker.sock
+        securityContext:
+            privileged: true
+      volumes:
+      - name: docker-persistent-storage
+        persistentVolumeClaim:
+           claimName: docker-data

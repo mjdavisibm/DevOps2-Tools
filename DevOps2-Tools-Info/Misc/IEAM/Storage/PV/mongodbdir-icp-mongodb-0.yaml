@@ -1,0 +1,68 @@
+# This seems to be running
+#
+#
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pvc-69564441-8c5a-46e5-8a7e-fbd0514c66cf
+  selfLink: /api/v1/persistentvolumes/pvc-69564441-8c5a-46e5-8a7e-fbd0514c66cf
+  uid: 9f4e2ea7-63b6-4da4-8730-e9f1c17cdbb1
+  resourceVersion: '477539'
+  creationTimestamp: '2020-04-02T01:13:11Z'
+  labels:
+    CapacityGb: '20'
+    Datacenter: dal13
+    IOPS: '10'
+    StorageType: Endurance
+    billingType: hourly
+    failure-domain.beta.kubernetes.io/region: us-south
+    failure-domain.beta.kubernetes.io/zone: dal13
+    ibm-cloud.kubernetes.io/iaas-provider: softlayer
+  annotations:
+    ibm.io/dm: /dev/dm-1
+    ibm.io/mountpath: >-
+      /var/data/kubelet/plugins/kubernetes.io/flexvolume/ibm/ibmc-block/mounts/pvc-69564441-8c5a-46e5-8a7e-fbd0514c66cf
+    ibm.io/mountstatus: mounted
+    ibm.io/network-storage-id: '132918178'
+    ibm.io/nodename: 10.209.172.33
+    pv.kubernetes.io/provisioned-by: ibm.io/ibmc-block
+    volume.beta.kubernetes.io/storage-class: ''
+  finalizers:
+    - kubernetes.io/pv-protection
+spec:
+  capacity:
+    storage: 20Gi
+  flexVolume:
+    driver: ibm/ibmc-block
+    fsType: ext4
+    options:
+      Lun: '0'
+      TargetPortal: 161.26.114.143
+      VolumeID: '132918178'
+      volumeName: pvc-69564441-8c5a-46e5-8a7e-fbd0514c66cf
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    kind: PersistentVolumeClaim
+    namespace: kube-system
+    name: mongodbdir-icp-mongodb-0
+    uid: 69564441-8c5a-46e5-8a7e-fbd0514c66cf
+    apiVersion: v1
+    resourceVersion: '476997'
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ibmc-block-retain-gold
+  volumeMode: Filesystem
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: failure-domain.beta.kubernetes.io/zone
+              operator: In
+              values:
+                - dal13
+            - key: failure-domain.beta.kubernetes.io/region
+              operator: In
+              values:
+                - us-south
+status:
+  phase: Bound

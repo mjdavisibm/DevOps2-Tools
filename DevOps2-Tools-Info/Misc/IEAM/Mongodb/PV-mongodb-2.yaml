@@ -1,0 +1,57 @@
+kind: PersistentVolume
+apiVersion: v1
+metadata:
+  name: pvc-52843896-6410-4178-b9fd-a0f434c73fc1
+  selfLink: /api/v1/persistentvolumes/pvc-52843896-6410-4178-b9fd-a0f434c73fc1
+  uid: 9dbf2acb-d399-4073-a77e-66987b4bcd3d
+  resourceVersion: '1005797'
+  creationTimestamp: '2020-03-18T19:36:56Z'
+  labels:
+    server: fsf-dal1301d-fz.adn.networklayer.com
+    failure-domain.beta.kubernetes.io/zone: dal13
+    path: IBM02SEV1600548_11data01
+    Iops: '2'
+    failure-domain.beta.kubernetes.io/region: us-south
+    StorageType: ENDURANCE
+    billingType: hourly
+    volumeId: '130089006'
+    CapacityGb: '20'
+    Username: IBM02SEV1600548_11
+    Datacenter: dal13
+  annotations:
+    ibmFileProvisionerIdentity: 1e29b752-6747-11ea-863d-eac93d23068f
+    pv.kubernetes.io/provisioned-by: ibm.io/ibmc-file
+  finalizers:
+    - kubernetes.io/pv-protection
+spec:
+  capacity:
+    storage: 20Gi
+  nfs:
+    server: fsf-dal1301d-fz.adn.networklayer.com
+    path: /IBM02SEV1600548_11/data01
+  accessModes:
+    - ReadWriteOnce
+  claimRef:
+    kind: PersistentVolumeClaim
+    namespace: kube-system
+    name: mongodbdir-icp-mongodb-2
+    uid: 52843896-6410-4178-b9fd-a0f434c73fc1
+    apiVersion: v1
+    resourceVersion: '1005219'
+  persistentVolumeReclaimPolicy: Retain
+  storageClassName: ibmc-file-retain-bronze
+  volumeMode: Filesystem
+  nodeAffinity:
+    required:
+      nodeSelectorTerms:
+        - matchExpressions:
+            - key: failure-domain.beta.kubernetes.io/zone
+              operator: In
+              values:
+                - dal13
+            - key: failure-domain.beta.kubernetes.io/region
+              operator: In
+              values:
+                - us-south
+status:
+  phase: Bound

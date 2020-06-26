@@ -1,0 +1,15 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: device1
+spec:
+  containers:
+    - name: device1
+      image: ubuntu:18.04
+      args: [bash, -c, 'for ((i = 0; ; i++)); do echo "$i: $(date)"; sleep 100; done'] 
+  # Used to intialize shared areas within the Pod, e.g. pre-load volumnes
+  # Non is needed for this ubuntu image
+  initContainers:
+    - name: install-docker
+      image : xxxx
+      command: 

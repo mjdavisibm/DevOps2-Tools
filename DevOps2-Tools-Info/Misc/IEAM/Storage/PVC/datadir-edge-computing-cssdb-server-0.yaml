@@ -1,0 +1,41 @@
+kind: PersistentVolumeClaim
+apiVersion: v1
+metadata:
+  annotations:
+    ibm.io/provisioning-status: complete
+    pv.kubernetes.io/bind-completed: 'yes'
+    pv.kubernetes.io/bound-by-controller: 'yes'
+    volume.beta.kubernetes.io/storage-provisioner: ibm.io/ibmc-block
+  selfLink: >-
+    /api/v1/namespaces/kube-system/persistentvolumeclaims/datadir-edge-computing-cssdb-server-0
+  resourceVersion: '855393'
+  name: datadir-edge-computing-cssdb-server-0
+  uid: 48735462-913c-48bd-814c-e18846a79ed6
+  creationTimestamp: '2020-04-02T19:20:37Z'
+  namespace: kube-system
+  finalizers:
+    - kubernetes.io/pvc-protection
+  labels:
+    app.kubernetes.io/component: server
+    app.kubernetes.io/instance: edge-computing
+    app.kubernetes.io/managed-by: Tiller
+    app.kubernetes.io/name: cssdb
+    helm.sh/chart: cssdb
+    region: us-south
+    release: edge-computing
+    zone: dal13
+spec:
+  accessModes:
+    - ReadWriteOnce
+  resources:
+    requests:
+      storage: 50Gi
+  volumeName: pvc-48735462-913c-48bd-814c-e18846a79ed6
+  storageClassName: ibmc-block-gold
+  volumeMode: Filesystem
+status:
+  phase: Bound
+  accessModes:
+    - ReadWriteOnce
+  capacity:
+    storage: 50Gi
