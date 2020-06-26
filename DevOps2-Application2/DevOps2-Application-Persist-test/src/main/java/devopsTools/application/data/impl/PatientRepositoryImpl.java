@@ -7,7 +7,6 @@ import org.springframework.beans.factory.annotation.Autowired;
 import devopsTools.application.data.CustomizedPatientRepository;
 import devopsTools.application.data.PatientRepository;
 import devopsTools.application.domain.db.NameDB;
-import devopsTools.application.domain.medical.PatientDTO;
 import devopsTools.application.domain.medical.db.PatientDB;
 
 public class PatientRepositoryImpl implements CustomizedPatientRepository{

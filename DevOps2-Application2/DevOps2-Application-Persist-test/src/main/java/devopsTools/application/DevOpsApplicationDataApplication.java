@@ -13,7 +13,6 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.transaction.annotation.Transactional;
 
 import devopsTools.application.data.DoctorRepository;
-import devopsTools.application.data.PatientRepository;
 import devopsTools.application.domain.AddressDTO.AddressType;
 import devopsTools.application.domain.AddressDTO.State;
 import devopsTools.application.domain.db.AddressDB;
@@ -50,7 +49,7 @@ public class DevOpsApplicationDataApplication implements CommandLineRunner {
 		// Create a Doctor Object with name and address
 		DoctorDB p = new DoctorDB("000-11-2222",name, addresses);
 		//addr.setPerson(p);
-
+		log.debug("Doctor Created {}", p);
 		em.persist(addr);
 		//em.persist(p);
 

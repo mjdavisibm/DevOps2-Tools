@@ -9,7 +9,6 @@ import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.Transactional;
 
 import devopsTools.application.domain.db.NameDB;
-import devopsTools.application.domain.medical.DoctorDTO;
 import devopsTools.application.domain.medical.db.DoctorDB;
 
 /* 
@@ -23,7 +22,9 @@ public interface DoctorRepository extends JpaRepository<DoctorDB, Long> {
 	
 	public Optional<DoctorDB> findByName(NameDB name);
 
-	@Query("Select c From Doctor c where street like '%Avenue'")
-	List<DoctorDB> doctorsOnAvenues();
+	//@Query("Select c From Doctor c where street like '%Avenue'")
+	
+//	@Query("Select p From Address a JOIN a.person p where a.street like '%Avenue'")
+//	List<DoctorDB> doctorsOnAvenues();
 
 }

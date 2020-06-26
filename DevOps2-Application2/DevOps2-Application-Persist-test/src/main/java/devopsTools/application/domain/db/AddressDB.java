@@ -14,7 +14,6 @@ import javax.validation.constraints.Size;
 import devopsTools.application.domain.AddressDTO;
 import devopsTools.application.domain.AddressDTO.AddressType;
 import devopsTools.application.domain.AddressDTO.State;
-import devopsTools.application.domain.PersonDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 import lombok.NoArgsConstructor;

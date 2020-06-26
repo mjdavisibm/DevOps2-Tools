@@ -30,7 +30,7 @@ public interface PatientRepository extends JpaRepository<PatientDB, Long> , Cust
 	
 	//@Query("Select p From Patient p where p.id in (select person_id from Address where street like '%Avenue')")
 	
-	@Query("Select p From Address a JOIN a.patient p where a.street like '%Avenue'")
-	List<PatientDB> patientsOnAvenues();
+//	@Query("Select p From Address a JOIN a.person p where a.street like '%Avenue'")
+//	List<PatientDB> patientsOnAvenues();
 
 }
